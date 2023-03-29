@@ -12,7 +12,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     //private Animator anim;
     private BoxCollider2D collider;
+    private SpriteRenderer spriteRenderer;
     private PhysicsMaterial2D bounceMat, normalMat;
+    private Transform feet;
 
     //private bool grounded;
 
@@ -23,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<BoxCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        feet = transform.Find("Feet");
         //anim = GetComponent<Animator>();
     }
 
@@ -40,19 +44,20 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * walkSpeed, rb.velocity.y);
         }
-        
-        
+
+
 
         //Flip player sprite when moving left or right
-        if(horizontalInput >= 0.01f)
+        if(horizontalInput != 0) spriteRenderer.flipX = horizontalInput < 0f;
+        /*if(horizontalInput >= 0.01f)
         {
             transform.localScale = Vector3.one;
         } else if(horizontalInput < -0.01f)
         {
             transform.localScale = new Vector3(-1, 1, 1);
-        }
+        }*/
 
-        if(Input.GetKey(KeyCode.Space) && IsGrounded() && !jumpKingJump)
+        if (Input.GetKey(KeyCode.Space) && IsGrounded() && !jumpKingJump)
         {
             Jump();
         }
@@ -132,8 +137,9 @@ public class PlayerMovement : MonoBehaviour
         jumpForce = 0;
     }
 
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
-        return Physics2D.BoxCast(collider.bounds.center, collider.bounds.size, 0f, Vector2.down, 0.1f, jumpableGround);
+        var hit = Physics2D.BoxCast(collider.bounds.center, collider.bounds.size, 0f, Vector2.down, 0.1f, jumpableGround);
+        return hit && hit.point.y <= feet.position.y && collider.IsTouching(hit.collider);
     }
 }
