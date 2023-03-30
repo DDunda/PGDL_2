@@ -808,7 +808,7 @@ MonoBehaviour:
     max: 1
   - min: 1
     max: 1
-  levelSnapX: 0100010101
+  levelSnapX: 0101010101
 --- !u!4 &809048612 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4393167746125420231, guid: 1b31fc527d1b8eb418cc352464ccb918, type: 3}
@@ -1684,6 +1684,7 @@ MonoBehaviour:
   walkSpeed: 10
   jumpKingJump: 1
   jumpForce: 0
+  jumpSpeed: 30
 --- !u!50 &1619814904
 Rigidbody2D:
   serializedVersion: 4
