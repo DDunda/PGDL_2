@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float walkSpeed = 10;
     [SerializeField] private bool jumpKingJump = true;
     [SerializeField] private float jumpForce = 0.0f;
+    [SerializeField] private float jumpSpeed = 30.0f;
+    [SerializeField] private float maxJumpForce = 20.0f;
     private bool canJump = true;
     private Rigidbody2D rb;
     //private Animator anim;
@@ -67,10 +69,12 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(0.0f, rb.velocity.y);
         }
 
-        if(Input.GetKey(KeyCode.Space) && IsGrounded() && jumpKingJump && canJump && jumpForce < 20f)
+        if(Input.GetKey(KeyCode.Space) && IsGrounded() && jumpKingJump && canJump && jumpForce < maxJumpForce)
         {
-            jumpForce += 0.1f;
+            jumpForce += jumpSpeed * Time.deltaTime;
         }
+
+        jumpForce = Mathf.Min(jumpForce, maxJumpForce);
 
         /*if((jumpForce >= 20.1f) && IsGrounded() && jumpKingJump)
         {

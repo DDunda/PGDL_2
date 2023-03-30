@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -29,3 +31,5 @@ public class ColliderVisualiser : MonoBehaviour {
         boxCollider.transform.SetParent(p, true);
 	}
 }
+
+#endif
