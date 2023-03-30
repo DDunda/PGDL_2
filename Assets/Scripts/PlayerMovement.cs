@@ -13,9 +13,8 @@ public class PlayerMovement : MonoBehaviour
     private bool canJump = true;
     private Rigidbody2D rb;
     //private Animator anim;
-    private BoxCollider2D collider;
+    [SerializeField] private Collider2D feetCollider;
     private SpriteRenderer spriteRenderer;
-    private PhysicsMaterial2D bounceMat, normalMat;
     private Transform feet;
 
     //private bool grounded;
@@ -26,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        collider = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         feet = transform.Find("Feet");
         //anim = GetComponent<Animator>();
@@ -85,15 +83,6 @@ public class PlayerMovement : MonoBehaviour
         }
         */
 
-        if(jumpForce >= 0 && !IsGrounded()) 
-        {
-            rb.sharedMaterial = bounceMat;
-        }else
-        {
-            rb.sharedMaterial = bounceMat;
-            //rb.sharedMaterial = normalMat;
-        }
-
         //when space key is released
         if(Input.GetKeyUp(KeyCode.Space))
         {
@@ -143,7 +132,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool IsGrounded()
     {
-        var hit = Physics2D.BoxCast(collider.bounds.center, collider.bounds.size, 0f, Vector2.down, 0.1f, jumpableGround);
-        return hit && hit.point.y <= feet.position.y && collider.IsTouching(hit.collider);
+        var hit = Physics2D.BoxCast(feet.position, transform.localScale, 0f, Vector2.down, 0.1f, jumpableGround);
+        return hit && hit.point.y <= feet.position.y && feetCollider.IsTouching(hit.collider);
     }
 }
