@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2e51481396081d43865c2f6075927c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxCollider: {fileID: 876819460129401964}
   isLevel: 1
 --- !u!212 &413568950614495970
 SpriteRenderer:

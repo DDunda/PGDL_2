@@ -1,23 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraSnap : MonoBehaviour
 {
-    [Serializable]
-    public class MinMax <T>
-    {
-        public T min, max;
-    }
-
-	public Transform camera;
 	public bool canFall;
     public float scrollOffset = 2;
 
 	public Vector2Int snap;
-    public MinMax<int>[] levelWidths;
+    public Range<int>[] levelWidths;
     public bool[] levelSnapX;
 
     private Transform _player;
@@ -57,13 +46,13 @@ public class CameraSnap : MonoBehaviour
 
         bool snapX = (y < levelSnapX.Length && y < levelWidths.Length) ? levelSnapX[y] : true;
 
-        Vector3 v = camera.position;
+        Vector3 v = transform.position;
 
         if (!snapX)
         {
-            MinMax<int> level = levelWidths[y];
+            Range<int> level = levelWidths[y];
 
-            float xOff = camera.position.x - _player.position.x;
+            float xOff = transform.position.x - _player.position.x;
 
             v.x = Mathf.Clamp((_player.position.x + Mathf.Clamp(xOff, -scrollOffset, +scrollOffset)) / snap.x, level.min, level.max) * snap.x;
         } else
@@ -73,6 +62,6 @@ public class CameraSnap : MonoBehaviour
 
         v.y = y * snap.y;
 
-        camera.position = v;
+        transform.position = v;
 	}
 }

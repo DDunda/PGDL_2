@@ -1,15 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Video;
 
 public class PlayerLife : MonoBehaviour
 {
     public bool alive { get => _alive; }
-
-    public LayerMask checkpointLayer;
-    public LayerMask hazardLayer;
 
     public UnityEvent onKill;
     public UnityEvent onFall;
@@ -75,14 +70,5 @@ public class PlayerLife : MonoBehaviour
         _playerMovement.enabled = false;
         _alive = false;
         onFall.Invoke();
-    }
-
-    public void OnTriggerEnter2D(Collider2D other)
-    {
-        if((hazardLayer & (1 << other.gameObject.layer)) != 0)
-        {
-            Kill(true);
-            return;
-        }
     }
 }

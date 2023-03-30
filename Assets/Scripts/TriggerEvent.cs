@@ -1,51 +1,85 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class TriggerEvent : MonoBehaviour
 {
-    public UnityEvent onTriggerEnter;
+	public UnityEvent onTriggerEnter;
+    [SerializeField, HideInInspector]
     public int maxTriggers = 1;
-    public bool needsGrounded = true;
-    public bool needsAlive = true;
-    public Transform respawnPosition = null;
+    [SerializeField, HideInInspector]
+	public bool needsPlayer = true;
+	[SerializeField, HideInInspector]
+	public bool needsGrounded = true;
+	[SerializeField, HideInInspector]
+	public bool needsAlive = true;
+	[SerializeField, HideInInspector]
+	public bool killOnTrigger = false;
+	[SerializeField, HideInInspector]
+	public bool hidePlayerOnKill = true;
 
-    private int _triggers = 0;
-    private bool _triggerFailed = false;
+	private Transform respawnPosition = null;
+	private int _triggers = 0;
+	private HashSet<GameObject> _pendingTriggers = new();
 
-    private void AttemptTrigger(Collider2D other)
-    {
-        var pl = other.gameObject.GetComponent<PlayerLife>();
-        _triggerFailed = !((maxTriggers == -1 || _triggers < maxTriggers) &&
-            (!needsGrounded || (other.gameObject.GetComponent<PlayerMovement>()?.IsGrounded() == true)) &&
-            (!needsAlive || (pl?.alive == true)));
+	private void Start()
+	{
+		respawnPosition = transform.Find("RespawnPosition");
+	}
 
-        if (!_triggerFailed)
-        {
-            if(respawnPosition != null)
-            {
-                pl.SetSpawnpoint(respawnPosition.position);
-            }
-            onTriggerEnter.Invoke();
-            _triggers++;
+	private void AttemptTrigger(GameObject other)
+	{
+		PlayerLife pl = null;
+		PlayerMovement pm = null;
+
+        bool success = maxTriggers <= 0 || _triggers < maxTriggers;
+
+		if(needsPlayer)
+		{
+			success = success &&
+				other.tag == "Player" &&
+				other.TryGetComponent(out pl) &&
+				other.TryGetComponent(out pm) &&
+				(!needsGrounded || pm.IsGrounded()) &&
+				(!needsAlive || pl.alive);
+
         }
 
-        if (_triggers == maxTriggers)
-        {
-            gameObject.SetActive(false);
+		if (!success) return;
+
+		if (needsPlayer)
+		{
+			if (killOnTrigger)
+			{
+				pl.Kill(hidePlayerOnKill);
+			}
+			if(respawnPosition != null)
+			{
+				pl.SetSpawnpoint(respawnPosition.position);
+			}
         }
+
+        onTriggerEnter.Invoke();
+        _pendingTriggers.Remove(other);
+        _triggers++;
+
+		if (_triggers == maxTriggers)
+		{
+			gameObject.SetActive(false);
+		}
     }
 
 
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        AttemptTrigger(other);
-    }
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		_pendingTriggers.Add(other.gameObject);
+		AttemptTrigger(other.gameObject);
+	}
 
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (_triggerFailed) AttemptTrigger(other);
-    }
+	private void OnTriggerStay2D(Collider2D other)
+	{
+
+		if (_pendingTriggers.Contains(other.gameObject)) AttemptTrigger(other.gameObject);
+	}
 }

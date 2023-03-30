@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 7219930806780756586}
   - component: {fileID: 8388471152396946031}
   m_Layer: 9
-  m_Name: GenericTrigger
+  m_Name: Checkpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5917479213205454941
 Transform:
@@ -30,6 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5572557360922028791}
   - {fileID: 5891571203784122710}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -58,7 +59,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3, y: 3}
+  m_Size: {x: 6, y: 3}
   m_EdgeRadius: 0
 --- !u!114 &8388471152396946031
 MonoBehaviour:
@@ -75,10 +76,12 @@ MonoBehaviour:
   onTriggerEnter:
     m_PersistentCalls:
       m_Calls: []
-  maxTriggers: 1
-  needsGrounded: 0
+  needsPlayer: 1
+  needsGrounded: 1
   needsAlive: 1
-  respawnPosition: {fileID: 0}
+  killOnTrigger: 0
+  hidePlayerOnKill: 1
+  maxTriggers: 1
 --- !u!1 &3926403236053734152
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,7 +98,7 @@ GameObject:
   m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5891571203784122710
 Transform:
@@ -106,11 +109,11 @@ Transform:
   m_GameObject: {fileID: 3926403236053734152}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 0}
+  m_LocalScale: {x: 6, y: 3, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5917479213205454941}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6903658737922266345
 MonoBehaviour:
@@ -124,7 +127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2e51481396081d43865c2f6075927c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxCollider: {fileID: 7219930806780756586}
   isLevel: 1
 --- !u!212 &5579056030338527884
 SpriteRenderer:
@@ -168,7 +170,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: b281b91a70a624a0da1c43adc1c30c7b, type: 3}
-  m_Color: {r: 0.2666667, g: 0.9019608, b: 0.29920384, a: 0.5019608}
+  m_Color: {r: 0.26788235, g: 0.3232873, b: 0.9019608, a: 0.5019608}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -178,3 +180,34 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &5475028446551185431
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5572557360922028791}
+  m_Layer: 9
+  m_Name: RespawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &5572557360922028791
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5475028446551185431}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5917479213205454941}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
