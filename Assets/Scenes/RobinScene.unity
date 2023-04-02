@@ -728,6 +728,7 @@ MonoBehaviour:
   jumpForce: 0
   jumpSpeed: 30
   maxJumpForce: 20
+  feetCollider: {fileID: 0}
 --- !u!251 &773016234
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -759,12 +760,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06ebb38d796f2214199fc596deb59e75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkpointLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  hazardLayer:
-    serializedVersion: 2
-    m_Bits: 256
   onKill:
     m_PersistentCalls:
       m_Calls:
@@ -1243,4 +1238,48 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1850326675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1850326677}
+  - component: {fileID: 1850326676}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1850326676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850326675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 439d345653078c14893a57a3ae310e35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1850326677
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850326675}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 438.84213, y: 249.56758, z: -4.5502462}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

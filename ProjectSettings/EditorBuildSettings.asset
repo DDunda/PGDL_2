@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DeaconScene.unity
     guid: b00617366bb500241b70c6895ce74de4
+  - enabled: 1
+    path: Assets/Scenes/StartMenu.unity
+    guid: ea9842fd0bb92e845a91652f8d5e1d6f
   m_configObjects: {}
