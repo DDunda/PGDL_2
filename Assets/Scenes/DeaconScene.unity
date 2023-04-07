@@ -550,6 +550,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1768098678724455318, guid: 76c10bc7a5607e94a9de8650dd381104, type: 3}
+      propertyPath: maxJumpTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1768098678724455318, guid: 76c10bc7a5607e94a9de8650dd381104, type: 3}
+      propertyPath: jumpKingJump
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1768098678724455318, guid: 76c10bc7a5607e94a9de8650dd381104, type: 3}
+      propertyPath: maxJumpHeight
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1768098678724455321, guid: 76c10bc7a5607e94a9de8650dd381104, type: 3}
+      propertyPath: m_GravityScale
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1768098678724455322, guid: 76c10bc7a5607e94a9de8650dd381104, type: 3}
       propertyPath: m_RootOrder
       value: 1
