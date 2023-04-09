@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2006835797749245332}
-  - component: {fileID: 1074620676641831860}
+  - component: {fileID: 4114621706603171647}
   - component: {fileID: 413568950614495970}
   m_Layer: 6
   m_Name: Visualiser
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 4577803224682230337}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1074620676641831860
+--- !u!114 &4114621706603171647
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,10 +42,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1453724477131928047}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2e51481396081d43865c2f6075927c2, type: 3}
+  m_Script: {fileID: 11500000, guid: 9e7a4a9444e25e140811c445fa233455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isLevel: 1
+  rootTransform: {fileID: 4577803224682230337}
 --- !u!212 &413568950614495970
 SpriteRenderer:
   m_ObjectHideFlags: 0

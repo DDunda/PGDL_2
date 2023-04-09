@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private LayerMask jumpableGround;
     [SerializeField] private float walkSpeed = 10f;
+    [SerializeField] private float walkAcceleration = 100f;
     private bool canJump = true;
     private Rigidbody2D rb;
 
@@ -14,21 +16,24 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce = 0.0f;
     [SerializeField] private float jumpSpeed = 30.0f;
     [SerializeField] private float maxJumpForce = 20.0f;
-    private int gravityDefault;
-    
+
     //private Animator anim;
     [SerializeField] private Collider2D feetCollider;
     private SpriteRenderer spriteRenderer;
     private Transform feet;
 
     //Mario Movement Stuff
+    [SerializeField] private float minJumpHeight = 1f;
     [SerializeField] private float maxJumpHeight = 5f;
-    [SerializeField] private float maxJumpTime = 1f;
-    [SerializeField] private float mJumpForce => (2f * maxJumpHeight) / (maxJumpTime / 2f);
-    [SerializeField] private float gravity => (-2f * maxJumpHeight) / Mathf.Pow((maxJumpTime / 2f), 2);
-    [SerializeField] private bool jumping;
-    private Vector2 velocity;
+    private float maxJumpTime 
+            //=> (maxJumpHeight - minJumpHeight) / mJumpForce; // Jumps without gravity
+            => (-6f / gravity) * (Mathf.Sqrt((2f / 3f) * ((-gravity) * maxJumpHeight + 2 * mJumpForce * mJumpForce)) - mJumpForce); // Jumps with 0-max gravity
+    private float mJumpForce => Mathf.Sqrt(2 * gravity * minJumpHeight);
+    private float gravity => Physics2D.gravity.magnitude * gravityDefault;
+
+    [SerializeField] private float jumpTime = 0;
     private float inputAxis = 8.0f;
+    private float gravityDefault;
 
     //private bool grounded;
 
@@ -40,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         feet = transform.Find("Feet");
-        //gravityDefault = rb.Gravity
+        gravityDefault = rb.gravityScale;
         //anim = GetComponent<Animator>();
     }
 
@@ -56,14 +61,25 @@ public class PlayerMovement : MonoBehaviour
                 rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * walkSpeed, rb.velocity.y);
             }
 
-            if(Input.GetKeyDown(KeyCode.Space) && IsGrounded() && canJump)
+            if (IsGrounded() && canJump)
             {
-                rb.velocity = new Vector2(0.0f, rb.velocity.y);
-            }
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    rb.velocity = new Vector2(0.0f, rb.velocity.y);
+                    jumpForce = 0.0f;
+                }
 
-            if(Input.GetKey(KeyCode.Space) && IsGrounded() && canJump && jumpForce < maxJumpForce)
-            {
-                jumpForce += jumpSpeed * Time.deltaTime;
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    jumpForce += jumpSpeed * Time.deltaTime;
+                    jumpForce = Mathf.Min(jumpForce, maxJumpForce);
+                }
+
+                if (Input.GetKeyUp(KeyCode.Space))
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + jumpForce);
+                    canJump = false;
+                }
             }
         }
         else //Mario Jumping
@@ -75,27 +91,13 @@ public class PlayerMovement : MonoBehaviour
             HorizontalMovement();
             if (IsGrounded())
             {
-                GroundedMovement(); 
+                GroundedMovement();
             }
 
-            ApplyGravity();
+            ApplyJumpGravity();
         }
         
         if(horizontalInput != 0) spriteRenderer.flipX = horizontalInput < 0f;
-
-        jumpForce = Mathf.Min(jumpForce, maxJumpForce);
-
-
-        //when space key is released
-        if(Input.GetKeyUp(KeyCode.Space))
-        {
-            if(IsGrounded())
-            {
-                rb.velocity = new Vector2(horizontalInput * walkSpeed, jumpForce);
-                jumpForce = 0.0f;
-            }
-            canJump = true;
-        }
 
         //when space key is released
         if(Input.GetKeyUp(KeyCode.J))
@@ -132,20 +134,19 @@ public class PlayerMovement : MonoBehaviour
     private void HorizontalMovement()
     {
         inputAxis = Input.GetAxis("Horizontal");
-        velocity.x = Mathf.MoveTowards(velocity.x, inputAxis * walkSpeed, walkSpeed * Time.deltaTime);
+        rb.velocity = new Vector2(Mathf.MoveTowards(rb.velocity.x, inputAxis * walkSpeed, walkAcceleration * Time.deltaTime), rb.velocity.y);
 
         //rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * walkSpeed, rb.velocity.y); OLD
     }
 
     private void GroundedMovement()
     {
-        velocity.y = Mathf.Max(velocity.y, 0f);
-        jumping = velocity.y > 0f;
         if(Input.GetKeyDown(KeyCode.Space))
         {
             //Jump();
-            velocity.y = (mJumpForce);
-            jumping = true;
+            rb.velocity = new Vector2(rb.velocity.x, mJumpForce);
+            rb.gravityScale = jumpTime > 0 ? 0 : rb.gravityScale;
+            jumpTime = maxJumpTime;
         }
     }
 
@@ -153,18 +154,25 @@ public class PlayerMovement : MonoBehaviour
     {
         if(!jumpKingJump)
         {
-            Vector2 position = rb.position;
+            /*Vector2 position = rb.position;
             position += velocity * Time.fixedDeltaTime;
 
-            rb.MovePosition(position);
+            rb.MovePosition(position);*/
+
+            if (jumpTime > 0f)
+            {
+                jumpTime = Mathf.Max(jumpTime - Time.fixedDeltaTime, 0f);
+                rb.gravityScale = gravityDefault * (maxJumpTime - jumpTime) / maxJumpTime;
+            }
         }
     }
 
-    private void ApplyGravity ()
+    private void ApplyJumpGravity()
     {
-        bool falling = velocity.y < 0f || !Input.GetKey(KeyCode.Space);
-        float multiplier = falling ? 2f : 1f;
-        velocity.y += gravity * multiplier * Time.deltaTime;
-        velocity.y = Mathf.Max(velocity.y, gravity / 2f);
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            jumpTime = 0f;
+            rb.gravityScale = gravityDefault;
+        }
     }
 }

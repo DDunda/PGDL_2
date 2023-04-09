@@ -75,7 +75,8 @@ MonoBehaviour:
   onTriggerEnter:
     m_PersistentCalls:
       m_Calls: []
-  maxTriggers: -1
+  maxTriggers: 0
+  needsPlayer: 1
   needsGrounded: 0
   needsAlive: 1
   killOnTrigger: 1
@@ -89,7 +90,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8896975109639486143}
-  - component: {fileID: 8117794476580966009}
+  - component: {fileID: 5278945231394067208}
   - component: {fileID: 3513200683902658957}
   m_Layer: 8
   m_Name: Visualiser
@@ -113,7 +114,7 @@ Transform:
   m_Father: {fileID: 4543746159147764776}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8117794476580966009
+--- !u!114 &5278945231394067208
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,10 +123,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7906217105099415474}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2e51481396081d43865c2f6075927c2, type: 3}
+  m_Script: {fileID: 11500000, guid: 9e7a4a9444e25e140811c445fa233455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isLevel: 1
+  rootTransform: {fileID: 4543746159147764776}
+  sizeVisualiser: {fileID: 8896975109639486143}
 --- !u!212 &3513200683902658957
 SpriteRenderer:
   m_ObjectHideFlags: 0
