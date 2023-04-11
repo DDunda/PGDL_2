@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -10,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float walkAcceleration = 100f;
     private bool canJump = true;
     private Rigidbody2D rb;
+    [SerializeField] private AudioSource footsteps;
 
     //Jump king Stuff
     [SerializeField] private bool jumpKingJump = false;
@@ -95,6 +95,18 @@ public class PlayerMovement : MonoBehaviour
             }
 
             ApplyJumpGravity();
+
+            if ((rb.velocity != Vector2.zero) && (IsGrounded()))
+            {
+                if (!footsteps.isPlaying)
+                {
+                    footsteps.Play();
+                        }
+            }
+             else
+                {
+                    footsteps.Stop();
+                    }
         }
         
         if(horizontalInput != 0) spriteRenderer.flipX = horizontalInput < 0f;
