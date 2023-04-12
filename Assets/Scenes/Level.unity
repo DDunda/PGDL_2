@@ -154,6 +154,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4114621706603171647, guid: ce1b4d3c2b1bf3b4693b1692bdc97ea6, type: 3}
+      propertyPath: isLevel
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4577803224682230337, guid: ce1b4d3c2b1bf3b4693b1692bdc97ea6, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -2365,6 +2369,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4114621706603171647, guid: ce1b4d3c2b1bf3b4693b1692bdc97ea6, type: 3}
+      propertyPath: isLevel
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4577803224682230337, guid: ce1b4d3c2b1bf3b4693b1692bdc97ea6, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -3268,11 +3276,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1768098678724455326, guid: 76c10bc7a5607e94a9de8650dd381104, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 3.0625
+      value: 2.45
       objectReference: {fileID: 0}
     - target: {fileID: 1768098678724455326, guid: 76c10bc7a5607e94a9de8650dd381104, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 3
+      value: 2.4
       objectReference: {fileID: 0}
     - target: {fileID: 1768098678724455327, guid: 76c10bc7a5607e94a9de8650dd381104, type: 3}
       propertyPath: m_Points.Array.data[0].x
@@ -4807,6 +4815,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2006835797749245332, guid: ce1b4d3c2b1bf3b4693b1692bdc97ea6, type: 3}
       propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4114621706603171647, guid: ce1b4d3c2b1bf3b4693b1692bdc97ea6, type: 3}
+      propertyPath: isLevel
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4577803224682230337, guid: ce1b4d3c2b1bf3b4693b1692bdc97ea6, type: 3}

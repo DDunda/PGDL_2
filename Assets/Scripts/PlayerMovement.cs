@@ -85,18 +85,19 @@ public class PlayerMovement : MonoBehaviour
 
             ApplyJumpGravity();
 			
-			if ((rb.velocity != Vector2.zero) && (IsGrounded()))
+			
+        }
+        if ((rb.velocity != Vector2.zero) && (IsGrounded()))
+        {
+            anim.SetBool("walk", true);
+            if (!footsteps.isPlaying)
             {
-                anim.SetBool("walk", true);
-                if (!footsteps.isPlaying)
-                {
-                    footsteps.Play();
-                        }
-            } else
-            {
-                anim.SetBool("walk", false);
-                footsteps.Stop();
-            }
+                footsteps.Play();
+                    }
+        } else
+        {
+            anim.SetBool("walk", false);
+            footsteps.Stop();
         }
         
         if(horizontalInput != 0) spriteRenderer.flipX = horizontalInput < 0f;
