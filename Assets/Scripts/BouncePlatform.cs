@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public static class Helper
 {
@@ -29,11 +30,14 @@ public class BouncePlatform : MonoBehaviour
 		BounceOpposite
 	}
 
+	public UnityEvent onBounce;
+
 	[Min(0)]
 	public float bounceForce;
 	[SerializeField]
 	private float _bounceAngle = 0;
 	public BounceMode velocityChange = BounceMode.Cancel;
+	public AudioSource bounceSFX = null;
 
 	[Header("Editor")]
 	public Transform directionVisualiser = null;
@@ -76,5 +80,8 @@ public class BouncePlatform : MonoBehaviour
 		Vector2 impulse = bounceDirectionWorldspace * bounceForce;
 
 		rb.velocity += impulse;
+		
+		bounceSFX?.Play();
+		onBounce.Invoke();
 	}
 }

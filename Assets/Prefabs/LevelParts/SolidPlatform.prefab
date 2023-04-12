@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLevel: 1
   rootTransform: {fileID: 4577803224682230337}
+  sizeVisualiser: {fileID: 2006835797749245332}
 --- !u!212 &413568950614495970
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -12,8 +12,10 @@ public class ColliderVisualiserEditor : Editor
         if (vis.sizeVisualiser != null)
         {
             BoxCollider2D boxCollider = vis.GetComponent<BoxCollider2D>();
-            vis.transform.localPosition = boxCollider.offset;
-            vis.transform.localScale = boxCollider.size;
+            if (boxCollider != null) {
+                vis.transform.localPosition = boxCollider.offset;
+                vis.transform.localScale = boxCollider.size;
+            }
         }
 
 		if (!vis.isLevel || vis.rootTransform == null) return;
