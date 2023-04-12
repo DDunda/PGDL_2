@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpSpeed = 30.0f;
     [SerializeField] private float maxJumpForce = 20.0f;
 
-    //private Animator anim;
+    private Animator anim;
     [SerializeField] private Collider2D feetCollider;
     private SpriteRenderer spriteRenderer;
     private Transform feet;
@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         feet = transform.Find("Feet");
         gravityDefault = rb.gravityScale;
-        //anim = GetComponent<Animator>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -78,9 +78,19 @@ public class PlayerMovement : MonoBehaviour
                 if (Input.GetKeyUp(KeyCode.Space))
                 {
                     rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + jumpForce);
-                    canJump = false;
+                    canJump = true;
+                }
+
+                if (jumpForce >= maxJumpForce)
+                {
+                    float tempx = inputAxis * walkSpeed;
+                    float tempy = jumpForce;
+                    rb.velocity = new Vector2(tempx, tempy);
+                    Invoke("ResetJump", 0.2f);
                 }
             }
+
+            
         }
         else //Mario Jumping
         {
@@ -98,15 +108,16 @@ public class PlayerMovement : MonoBehaviour
 
             if ((rb.velocity != Vector2.zero) && (IsGrounded()))
             {
+                anim.SetBool("walk", true);
                 if (!footsteps.isPlaying)
                 {
                     footsteps.Play();
                         }
+            } else
+            {
+                anim.SetBool("walk", false);
+                footsteps.Stop();
             }
-             else
-                {
-                    footsteps.Stop();
-                    }
         }
         
         if(horizontalInput != 0) spriteRenderer.flipX = horizontalInput < 0f;
