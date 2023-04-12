@@ -61,36 +61,15 @@ public class PlayerMovement : MonoBehaviour
                 rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * walkSpeed, rb.velocity.y);
             }
 
-            if (IsGrounded() && canJump)
+            if(Input.GetKeyDown(KeyCode.Space) && IsGrounded() && canJump)
             {
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    rb.velocity = new Vector2(0.0f, rb.velocity.y);
-                    jumpForce = 0.0f;
-                }
-
-                if (Input.GetKey(KeyCode.Space))
-                {
-                    jumpForce += jumpSpeed * Time.deltaTime;
-                    jumpForce = Mathf.Min(jumpForce, maxJumpForce);
-                }
-
-                if (Input.GetKeyUp(KeyCode.Space))
-                {
-                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + jumpForce);
-                    canJump = true;
-                }
-
-                if (jumpForce >= maxJumpForce)
-                {
-                    float tempx = inputAxis * walkSpeed;
-                    float tempy = jumpForce;
-                    rb.velocity = new Vector2(tempx, tempy);
-                    Invoke("ResetJump", 0.2f);
-                }
+                rb.velocity = new Vector2(0.0f, rb.velocity.y);
             }
 
-            
+            if(Input.GetKey(KeyCode.Space) && IsGrounded() && canJump && jumpForce < maxJumpForce)
+            {
+                jumpForce += jumpSpeed * Time.deltaTime;
+            }
         }
         else //Mario Jumping
         {
@@ -101,12 +80,12 @@ public class PlayerMovement : MonoBehaviour
             HorizontalMovement();
             if (IsGrounded())
             {
-                GroundedMovement();
+                GroundedMovement(); 
             }
 
             ApplyJumpGravity();
-
-            if ((rb.velocity != Vector2.zero) && (IsGrounded()))
+			
+			if ((rb.velocity != Vector2.zero) && (IsGrounded()))
             {
                 anim.SetBool("walk", true);
                 if (!footsteps.isPlaying)
@@ -121,6 +100,20 @@ public class PlayerMovement : MonoBehaviour
         }
         
         if(horizontalInput != 0) spriteRenderer.flipX = horizontalInput < 0f;
+
+        jumpForce = Mathf.Min(jumpForce, maxJumpForce);
+
+
+        //when space key is released
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            if(IsGrounded())
+            {
+                rb.velocity = new Vector2(horizontalInput * walkSpeed, jumpForce);
+                jumpForce = 0.0f;
+            }
+            canJump = true;
+        }
 
         //when space key is released
         if(Input.GetKeyUp(KeyCode.J))
